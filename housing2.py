@@ -19,7 +19,7 @@ def modify_table(table, main):
     #for col in table.columns:
 
 def process_text(text):
-    return text.replace("Suite/Apartment", "Suite").replace("(if applicable)", "").replace("23-24 General Selection", '\033[92m' + "General" + '\033[0m').replace("3.0", '\033[92m' + "3.0" + '\033[0m').replace("23-24 Wellness Suite", '\033[0m' + "Wellness" + '\033[0m').replace("Sub Free", '\033[31m' + "Sub Free" + '\033[0m').replace("23-24", "").replace("Wellness Single", '\033[31m' + "Wellness" + '\033[0m').replace("Wellness", '\033[31m' + "Wellness" + '\033[0m').replace("Female", '\033[31m' + "Female" + '\033[0m')#.replace(".0", "")
+    return text.replace("Suite/Apartment", "Suite").replace("(if applicable)", "").replace("23-24 General Selection", '\033[92m' + "General" + '\033[0m').replace("3.0", '\033[92m' + "3.0" + '\033[0m').replace("23-24 Wellness Suite", '\033[0m' + "Wellness" + '\033[0m').replace("Substance", "Sub").replace("Sub Free", '\033[31m' + "Sub Free" + '\033[0m').replace("23-24", "").replace("Wellness Single", '\033[31m' + "Wellness" + '\033[0m').replace("Wellness", '\033[31m' + "Wellness" + '\033[0m').replace("Female", '\033[31m' + "Female" + '\033[0m')#.replace(".0", "")
 
 if __name__ == "__main__":
     hall = False
