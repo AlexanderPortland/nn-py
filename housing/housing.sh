@@ -4,10 +4,53 @@
 RED='\033[0;31m'
 GREEN='\033[1;32m'
 BLUE='\033[1;34m'
+PURP='\033[1;35m'
 NC='\033[0m'
 
 #STR="$(/usr/local/bin/python3 housing2.py)"
 #echo ${STR}
+function write_stats(){
+  #fours
+    echo "----ALL ROOMS----"
+    TRIPS="$(($(/usr/local/bin/python3 housing2.py | grep Quad | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v -c Female)+1))"
+    TRIPS="$(((${TRIPS}) / 4))"
+    TWOS="$(/usr/local/bin/python3 housing2.py | grep "4\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c Double)"
+    ONES="$(/usr/local/bin/python3 housing2.py | grep "4\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c Single)"
+    
+    SUITES="$(((${TWOS} * 2 + ${ONES}) / 4))"
+
+    echo -e "${BLUE}${TRIPS}${NC} Quads found (${PURP}$((${TRIPS} * 4))${NC} beds)"
+    echo -e "${BLUE}${SUITES}${NC} Suites of 4 found (${PURP}$((${SUITES} * 4))${NC} beds)"
+
+  #threes
+  TRIPS="$(($(/usr/local/bin/python3 housing2.py | grep Triple | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v -c Female)+1))"
+  TRIPS="$(((${TRIPS}) / 3))"
+  TWOS="$(/usr/local/bin/python3 housing2.py | grep "3\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c Double)"
+  ONES="$(/usr/local/bin/python3 housing2.py | grep "3\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c Single)"
+    
+  SUITES="$(((${TWOS} + ${ONES}) / 3))"
+
+  echo -e "${BLUE}${TRIPS}${NC} Triples found (${PURP}$((${TRIPS} * 3))${NC} beds)"
+  echo -e "${BLUE}${SUITES}${NC} Suites of 3 found (${PURP}$((${SUITES} * 3))${NC} beds)"
+
+  #twos
+  TRIPS="$(($(/usr/local/bin/python3 housing2.py | grep Double | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c -v Suite)+1))"
+    TRIPS="$(((${TRIPS}) / 2))"
+    TWOS="$(/usr/local/bin/python3 housing2.py | grep "2\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -c -v Female)"
+    
+    SUITES="$(((${TWOS}) / 2))"
+
+    echo -e "${BLUE}${TRIPS}${NC} Doubles found (${PURP}$((${TRIPS} * 2))${NC} beds)"
+    echo -e "${BLUE}${SUITES}${NC} Suites of 2 found (${PURP}$((${SUITES} * 2))${NC} beds)"
+  
+  #singles
+  COUNT1="$(($(/usr/local/bin/python3 housing2.py | grep Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -v -c Suite )))"
+    COUNT2="$(($(/usr/local/bin/python3 housing2.py | grep Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c GRAD )))"
+    COUNT="$((${COUNT1} + ${COUNT2}))"
+
+    echo -e "${PURP}${COUNT}${NC} Singles found, ${PURP}${COUNT2}${NC} in grad"
+}
+
 function write_quads(){
     echo "----FINDING Quads----"
     /usr/local/bin/python3 housing2.py | grep Quad | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
@@ -22,8 +65,8 @@ function write_quads(){
     
     SUITES="$(((${TWOS} * 2 + ${ONES}) / 4))"
 
-    echo -e "${BLUE}${TRIPS}${NC} Quads found (${BLUE}$((${TRIPS} * 4))${NC} beds)"
-    echo -e "${BLUE}${SUITES}${NC} Suites of 4 found (${BLUE}$((${SUITES} * 4))${NC} beds)"
+    echo -e "${BLUE}${TRIPS}${NC} Quads found (${PURP}$((${TRIPS} * 4))${NC} beds)"
+    echo -e "${BLUE}${SUITES}${NC} Suites of 4 found (${PURP}$((${SUITES} * 4))${NC} beds)"
 }
 
 function write_triples(){
@@ -40,8 +83,8 @@ function write_triples(){
     
     SUITES="$(((${TWOS} + ${ONES}) / 3))"
 
-    echo -e "${BLUE}${TRIPS}${NC} Triples found (${BLUE}$((${TRIPS} * 3))${NC} beds)"
-    echo -e "${BLUE}${SUITES}${NC} Suites of 3 found (${BLUE}$((${SUITES} * 3))${NC} beds)"
+    echo -e "${BLUE}${TRIPS}${NC} Triples found (${PURP}$((${TRIPS} * 3))${NC} beds)"
+    echo -e "${BLUE}${SUITES}${NC} Suites of 3 found (${PURP}$((${SUITES} * 3))${NC} beds)"
 }
 
 function write_doubles(){
@@ -58,8 +101,8 @@ function write_doubles(){
     
     SUITES="$(((${TWOS}) / 2))"
 
-    echo -e "${BLUE}${TRIPS}${NC} Doubles found (${BLUE}$((${TRIPS} * 2))${NC} beds)"
-    echo -e "${BLUE}${SUITES}${NC} Suites of 2 found (${BLUE}$((${SUITES} * 2))${NC} beds)"
+    echo -e "${BLUE}${TRIPS}${NC} Doubles found (${PURP}$((${TRIPS} * 2))${NC} beds)"
+    echo -e "${BLUE}${SUITES}${NC} Suites of 2 found (${PURP}$((${SUITES} * 2))${NC} beds)"
 }
 
 function write_singles(){
@@ -74,17 +117,22 @@ function write_singles(){
     COUNT2="$(($(/usr/local/bin/python3 housing2.py | grep Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c GRAD )))"
     COUNT="$((${COUNT1} + ${COUNT2}))"
 
-    echo -e "${BLUE}${COUNT}${NC} Singles found, ${BLUE}${COUNT2}${NC} in grad"
+    echo -e "${PURP}${COUNT}${NC} Singles found, ${PURP}${COUNT2}${NC} in grad"
 }
 
 function get_valid(){
     /usr/local/bin/python3 housing2.py | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
 }
 
-while getopts 'qtdsval' OPTION; do
+while getopts 'iqtdsval' OPTION; do
   case "$OPTION" in
+    i)
+      #for valid info
+        write_stats
+        exit 0
+        ;;
     q)
-      #for valid triples
+      #for valid quads
         write_quads
         exit 0
         ;;
