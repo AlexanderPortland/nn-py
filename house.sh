@@ -22,8 +22,8 @@ function write_triples(){
     
     SUITES="$(((${TWOS} + ${ONES}) / 3))"
 
-    echo -e "${BLUE}${TRIPS}${NC} Triples found"
-    echo -e "${BLUE}${SUITES}${NC} Suites of 3 found"
+    echo -e "${BLUE}${TRIPS}${NC} Triples found (${BLUE}$((${TRIPS} * 3))${NC} beds)"
+    echo -e "${BLUE}${SUITES}${NC} Suites of 3 found (${BLUE}$((${SUITES} * 3))${NC} beds)"
 }
 
 function write_doubles(){
@@ -35,13 +35,13 @@ function write_doubles(){
 
     echo "total #"
     TRIPS="$(($(/usr/local/bin/python3 housing2.py | grep Double | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c -v Suite)+1))"
-    SUITES="$(((${TRIPS}) / 3))"
+    TRIPS="$(((${TRIPS}) / 2))"
     TWOS="$(/usr/local/bin/python3 housing2.py | grep "2\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -c -v Female)"
     
-    SUITES="$(((${TWOS}) / 3))"
+    SUITES="$(((${TWOS}) / 2))"
 
-    echo -e "${BLUE}${TRIPS}${NC} Doubles found"
-    echo -e "${BLUE}${SUITES}${NC} Suites of 2 found"
+    echo -e "${BLUE}${TRIPS}${NC} Doubles found (${BLUE}$((${TRIPS} * 2))${NC} beds)"
+    echo -e "${BLUE}${SUITES}${NC} Suites of 2 found (${BLUE}$((${SUITES} * 2))${NC} beds)"
 }
 
 function write_singles(){
@@ -71,7 +71,7 @@ while getopts 'tdsva' OPTION; do
       exit 0
       ;;
     d)
-    #for valid triples
+    #for valid doubles
       write_doubles
       exit 0
       ;;
