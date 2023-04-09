@@ -10,6 +10,10 @@ use the `-a` flag to filter by all available rooms
 
 use `-v` to only search valid rooms (excluding quiet, sub-free, wellness or non-CoEd options)
 
+use `-i` to show info on remaining valid rooms
+
+use `-r` to show verbose info on remaining valid rooms
+
 use `-s` to show only valid singles
 
 use `-d` to show only valid housing for groups of two
