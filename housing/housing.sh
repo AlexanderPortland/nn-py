@@ -8,6 +8,24 @@ NC='\033[0m'
 
 #STR="$(/usr/local/bin/python3 housing2.py)"
 #echo ${STR}
+function write_quads(){
+    echo "----FINDING Quads----"
+    /usr/local/bin/python3 housing2.py | grep Quad | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
+    echo "----FINDING Suites of 4----"
+    /usr/local/bin/python3 housing2.py | grep "4\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
+
+    echo "total #"
+    TRIPS="$(($(/usr/local/bin/python3 housing2.py | grep Quad | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v -c Female)+1))"
+    TRIPS="$(((${TRIPS}) / 4))"
+    TWOS="$(/usr/local/bin/python3 housing2.py | grep "4\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c Double)"
+    ONES="$(/usr/local/bin/python3 housing2.py | grep "4\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c Single)"
+    
+    SUITES="$(((${TWOS} * 2 + ${ONES}) / 4))"
+
+    echo -e "${BLUE}${TRIPS}${NC} Quads found (${BLUE}$((${TRIPS} * 4))${NC} beds)"
+    echo -e "${BLUE}${SUITES}${NC} Suites of 4 found (${BLUE}$((${SUITES} * 4))${NC} beds)"
+}
+
 function write_triples(){
     echo "----FINDING Triples----"
     /usr/local/bin/python3 housing2.py | grep Triple | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
@@ -63,8 +81,13 @@ function get_valid(){
     /usr/local/bin/python3 housing2.py | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
 }
 
-while getopts 'tdsval' OPTION; do
+while getopts 'qtdsval' OPTION; do
   case "$OPTION" in
+    q)
+      #for valid triples
+        write_quads
+        exit 0
+        ;;
     t)
     #for valid triples
       write_triples
