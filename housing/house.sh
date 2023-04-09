@@ -10,13 +10,13 @@ NC='\033[0m'
 #echo ${STR}
 function write_triples(){
     echo "----FINDING Triples----"
-    /usr/local/bin/python3 housing2.py | grep -n Triple | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
+    /usr/local/bin/python3 housing2.py | grep Triple | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
     echo "----FINDING Suites of 3----"
-    /usr/local/bin/python3 housing2.py | grep -n "3\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
+    /usr/local/bin/python3 housing2.py | grep "3\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
 
     echo "total #"
     TRIPS="$(($(/usr/local/bin/python3 housing2.py | grep Triple | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v -c Female)+1))"
-    SUITES="$(((${TRIPS}) / 3))"
+    TRIPS="$(((${TRIPS}) / 3))"
     TWOS="$(/usr/local/bin/python3 housing2.py | grep "3\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c Double)"
     ONES="$(/usr/local/bin/python3 housing2.py | grep "3\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c Single)"
     
@@ -47,9 +47,9 @@ function write_doubles(){
 function write_singles(){
     echo "writing singles"
     echo "----FINDING Singles----"
-    /usr/local/bin/python3 housing2.py | grep -n Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -v Suite  | nl #| grep -v "2\.0" | grep -v "3\.0" | grep -v "4\.0" | grep -v "5\.0"
+    /usr/local/bin/python3 housing2.py | grep Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -v Suite  | nl #| grep -v "2\.0" | grep -v "3\.0" | grep -v "4\.0" | grep -v "5\.0"
     echo "----LOOKING in Grad----"
-    /usr/local/bin/python3 housing2.py | grep -n Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep GRAD | nl
+    /usr/local/bin/python3 housing2.py | grep Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep GRAD | nl
     
     echo "total #"
     COUNT1="$(($(/usr/local/bin/python3 housing2.py | grep Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -v -c Suite )))"
@@ -63,7 +63,7 @@ function get_valid(){
     /usr/local/bin/python3 housing2.py | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
 }
 
-while getopts 'tdsva' OPTION; do
+while getopts 'tdsval' OPTION; do
   case "$OPTION" in
     t)
     #for valid triples
@@ -88,6 +88,14 @@ while getopts 'tdsva' OPTION; do
     a)
       /usr/local/bin/python3 housing2.py
       exit 0
+      ;;
+    l)
+    #remove coloring for less
+        RED=''
+        GREEN=''
+        BLUE=''
+        NC=''
+        echo "changing flags ${GREEN}${RED}${BLUE}${GREEN}"
       ;;
     ?)
       echo "script usage not right" >&2
