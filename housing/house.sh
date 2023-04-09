@@ -86,7 +86,7 @@ while getopts 'tdsval' OPTION; do
       exit 0
       ;;
     a)
-      /usr/local/bin/python3 housing2.py
+      /usr/local/bin/python3 housing2.py | nl
       exit 0
       ;;
     l)
