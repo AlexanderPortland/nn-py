@@ -12,12 +12,4 @@ use `-v` to only search valid rooms (excluding quiet, sub-free, wellness or non-
 
 use `-i` to show info on remaining valid rooms
 
-use `-r` to show verbose info on remaining valid rooms
-
-use `-s` to show only valid singles
-
-use `-d` to show only valid housing for groups of two
-
-use `-t` to show only valid housing for groups of three
-
-use `-q` to show only valid housing for groups of quad
+use `-r` to show verbose info on remaining valid rooms, or filter for groups of one (`-s`), two (`-d`), three (`-t`) or four (`-q`) seperately
