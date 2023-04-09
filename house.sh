@@ -10,9 +10,9 @@ NC='\033[0m'
 #echo ${STR}
 function write_triples(){
     echo "----FINDING Triples----"
-    /usr/local/bin/python3 housing2.py | grep Triple | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female
+    /usr/local/bin/python3 housing2.py | grep -n Triple | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
     echo "----FINDING Suites of 3----"
-    /usr/local/bin/python3 housing2.py | grep "3\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female
+    /usr/local/bin/python3 housing2.py | grep -n "3\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
 
     echo "total #"
     TRIPS="$(($(/usr/local/bin/python3 housing2.py | grep Triple | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v -c Female)+1))"
@@ -29,9 +29,9 @@ function write_triples(){
 function write_doubles(){
     echo "writing doubles"
     echo "----FINDING Doubles----"
-    /usr/local/bin/python3 housing2.py | grep Double | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -v Suite
+    /usr/local/bin/python3 housing2.py | grep Double | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -v Suite | nl
     echo "----FINDING Suites of 2----"
-    /usr/local/bin/python3 housing2.py | grep "2\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female
+    /usr/local/bin/python3 housing2.py | grep "2\.0" | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
 
     echo "total #"
     TRIPS="$(($(/usr/local/bin/python3 housing2.py | grep Double | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -c -v Suite)+1))"
@@ -47,9 +47,9 @@ function write_doubles(){
 function write_singles(){
     echo "writing singles"
     echo "----FINDING Singles----"
-    /usr/local/bin/python3 housing2.py | grep Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -v Suite #| grep -v "2\.0" | grep -v "3\.0" | grep -v "4\.0" | grep -v "5\.0"
+    /usr/local/bin/python3 housing2.py | grep -n Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -v Suite  | nl #| grep -v "2\.0" | grep -v "3\.0" | grep -v "4\.0" | grep -v "5\.0"
     echo "----LOOKING in Grad----"
-    /usr/local/bin/python3 housing2.py | grep Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep GRAD
+    /usr/local/bin/python3 housing2.py | grep -n Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep GRAD | nl
     
     echo "total #"
     COUNT1="$(($(/usr/local/bin/python3 housing2.py | grep Single | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | grep -v -c Suite )))"
@@ -60,7 +60,7 @@ function write_singles(){
 }
 
 function get_valid(){
-    /usr/local/bin/python3 housing2.py | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female
+    /usr/local/bin/python3 housing2.py | grep -v Wellness | grep -v "Sub Free" | grep -v Quiet | grep -v Female | nl
 }
 
 while getopts 'tdsva' OPTION; do
